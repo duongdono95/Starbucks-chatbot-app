@@ -1,0 +1,25 @@
+# 1️⃣ Ignore Virtual Environment, datasets folders
+venv/
+venv/*
+datasets/
+datasets/*
+
+# 2️⃣ Ignore Data Files (You might want to keep `dataset.json` if needed)
+*.csv
+*.json
+!dataset.json  # Keep dataset.json, but ignore other JSON files
+!functions.json  # Keep functions.json
+
+# 3️⃣ Ignore Jupyter Notebook Checkpoints
+.ipynb_checkpoints/
+
+# 4️⃣ Ignore System Files
+.DS_Store  # macOS metadata files
+Thumbs.db  # Windows thumbnail cache
+__pycache__/
+*.pyc
+*.pyo
+
+# 5️⃣ Ignore Environment & Logs
+.env
+*.log
