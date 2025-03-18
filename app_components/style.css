@@ -1,0 +1,71 @@
+QMainWindow {
+  background-color: #f3f6fb;
+}
+QFrame {
+  background-color: #f3f6fb;
+}
+#menu_bar {
+  background-color: white;
+  border-radius: 10px;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+}
+#date_list_header_container {
+  border-bottom: 1px solid rgba(0, 0, 0, 0.3);
+  border-radius: 0;
+}
+#date_list_title {
+  color: rgba(0, 0, 0, 0.7);
+}
+#text-btn {
+  background-color: transparent;
+  color: rgba(0, 98, 65, 0.7);
+  font-size: 12px;
+  border: none;
+  padding: 5px;
+}
+#text-btn:hover {
+  color: rgba(0, 98, 65, 0.7);
+  font-weight: bold;
+}
+#date_list {
+  background-color: white;
+}
+#date_list > #date_label {
+  padding: 0 10px;
+  border-radius: 10px;
+}
+#date_list > #date_label:hover {
+  background-color: #f3f6fb;
+}
+#OutputArea {
+  border-radius: 10px;
+}
+
+#message_wrapper_bot {
+  background-color: rgba(0, 0, 0, 0.1);
+  border-radius: 5px;
+  padding: 5px 10px;
+}
+#message_wrapper_human {
+  background-color: rgba(0, 98, 65, 0.7);
+  color: white;
+  border-radius: 5px;
+  padding: 5px 10px;
+}
+
+#InputArea {
+  border-radius: 10px;
+}
+
+#send_button {
+  border-radius: 20px;
+}
+
+#user-input {
+  padding: 10px;
+  border-radius: 10px;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+}
+#user-input:focus {
+  border: 2px solid rgba(0, 98, 65, 0.5);
+}
