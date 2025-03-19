@@ -37,22 +37,25 @@ class OutputArea(QtWidgets.QFrame):
     def display_message(self, message):
         message_container = QtWidgets.QWidget()
         message_layout = QtWidgets.QHBoxLayout(message_container)
-        
+        message_layout.setAlignment(
+            QtCore.Qt.AlignmentFlag.AlignRight if message["role"] == "human" 
+            else QtCore.Qt.AlignmentFlag.AlignLeft
+        )
+
         text = QtWidgets.QLabel(message["content"])
         text.setWordWrap(True)
-        text.setMaximumWidth(int(self.width()) * 0.9)
-        text.setSizePolicy(QtWidgets.QSizePolicy.Policy.Minimum, QtWidgets.QSizePolicy.Policy.Minimum)
+        text.setObjectName("message_bot" if message["role"] == "bot" else "message_human")
+        text.setSizePolicy(QtWidgets.QSizePolicy.Policy.Maximum, QtWidgets.QSizePolicy.Policy.Minimum)
+
+        text.setMinimumSize(0, 0)
         text.adjustSize()
-
         
-        message_layout.setAlignment(QtCore.Qt.AlignmentFlag.AlignLeft if message["role"] == "bot" else QtCore.Qt.AlignmentFlag.AlignRight )
-        text.setObjectName("message_wrapper_bot" if message["role"] == "bot" else "message_wrapper_human")
-
         message_layout.addWidget(text)
-        
         self.messages_layout.addWidget(message_container)
         QtCore.QTimer.singleShot(100, lambda: self.scroll_area.verticalScrollBar().setValue(self.scroll_area.verticalScrollBar().maximum()))
         self.displayed_message_count += 1
+        
+        
 
         
 

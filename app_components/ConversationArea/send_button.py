@@ -32,14 +32,13 @@ class SendButton(QtWidgets.QFrame):
         self.send_button.released.connect(self.on_button_released)
 
         
-        self.send_button.clicked.connect(lambda: self.MainWindow.send_message(is_human = True))
+        self.send_button.clicked.connect(lambda: self.MainWindow.send_message(is_human = True, message = self.MainWindow.current_message))
         
         layout.addWidget(self.send_button)
 
         self.setLayout(layout)
 
     def on_button_pressed(self):
-        """Reduce shadow effect when button is pressed (simulate depth effect)."""
         self.shadow_effect.setBlurRadius(10)
         self.shadow_effect.setXOffset(-1)
         self.shadow_effect.setYOffset(-1)
