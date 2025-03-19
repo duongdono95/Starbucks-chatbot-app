@@ -13,17 +13,9 @@ class MainWindow(QtWidgets.QMainWindow):
         super().__init__()
         self.app = app
         self.setWindowTitle("Starbuck Chatbot")
+        self.resize(1000, 600)
         
-        with open("models/nlp.pkl", "rb") as f:
-            self.nlp = pickle.load(f)
-        with open("models/vectorizer.pkl", "rb") as f:
-            self.vectorise_model = pickle.load(f)
-        with open("models/model.pkl", "rb") as f:
-            self.model = pickle.load(f)
-        with open("datasets/label_mapping.json", "r") as f:
-            self.label_mapping = json.load(f)
-        with open("datasets/dataset.json", "r") as f:
-            self.dataset = json.load(f)
+        self.load_packages()
         
         self.conversation = {
             "id": str(uuid.uuid4()),
@@ -44,29 +36,38 @@ class MainWindow(QtWidgets.QMainWindow):
 
         layout.addWidget(self.menu_bar, 1)
         layout.addWidget(self.conversation_box, 3)
-       
-    def send_message(self, is_human):
-        if self.current_message.strip(): 
+    
+    def load_packages(self):
+        with open("models/nlp.pkl", "rb") as f:
+            self.nlp = pickle.load(f)
+        with open("models/vectorizer.pkl", "rb") as f:
+            self.vectorise_model = pickle.load(f)
+        with open("models/model.pkl", "rb") as f:
+            self.model = pickle.load(f)
+        with open("datasets/label_mapping.json", "r") as f:
+            self.label_mapping = json.load(f)
+        with open("datasets/dataset.json", "r") as f:
+            self.dataset = json.load(f)
+    
+    def send_message(self, is_human, message):
+        if message.strip(): 
             message_id = str(uuid.uuid4()) 
             timestamp = datetime.datetime.now().isoformat() + "Z" 
             new_message = {
                 "id": message_id,
-                "role": "human",
-                "content": self.current_message.strip(), 
+                "role": "human" if is_human else "bot",
+                "content": self.current_message.strip() if is_human and not message else message, 
                 "intent": "", 
                 "timestamp": timestamp
             }
-
             self.conversation["messages"].append(new_message)
-            
             self.conversation_box.output_area.update_messages()
-            self.conversation_box.input_area.user_input.clear()
-            self.current_message = "" 
-            
-            print("Main - ", self.conversation["messages"])
-        else:
-            print("No message available")
-    
+            if is_human:
+                print("test: ", message)
+                self.produce_answer(new_message["content"])
+                self.conversation_box.input_area.user_input.clear()
+                self.current_message = "" 
+   
     def produce_answer(self, text):
         cleaned_text = clean_text(text, self.nlp)
         vectorised_text = self.vectorise_model.transform([cleaned_text])
@@ -77,5 +78,6 @@ class MainWindow(QtWidgets.QMainWindow):
                 break
             else:
                 answer = "Sorry, I don't understand."
-        self.send_message()
+        print("answer: ", answer)
+        self.send_message(False, answer)
             
